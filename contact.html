@@ -124,35 +124,64 @@
 									<li><span><i class="icon-phone4"></i></span>012456879</li>
 								</ul>
 							</div>
-							<div class="col-md-7 col-md-push-1 animate-box">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Name">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Email">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="submit" value="Send Message" class="btn btn-primary btn-submit">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+
+
+						
+	<div class="modal-body">
+          <form role="form">
+          		<div class="col-md-7 col-md-push-1 animate-box">
+            <div class="form-group">
+              <label for="psw"><span class="glyphicon glyphicon-shopping-cart"></span> Enter Your Lucky NUMBER!</label>
+              <input type="number" class="form-control" id="psw" placeholder="For FUN">
+            </div>
+            <div class="form-group">
+              <label class="nama"><span class="glyphicon glyphicon-user"></span> Name</label>
+              <input type="text" class="form-control" id="nama" placeholder="Enter Name">
+            </div>
+             
+             <div class="form-group">
+              <label for="address"><span class="glyphicon glyphicon-home"></span> Address </label>
+              <input type="text" class="form-control" id="alamat" placeholder="Enter Address">
+            </div>
+            <div class="form-group">
+              <label for="phone"><span class="glyphicon glyphicon-message"></span> Enter Message </label>
+              <input type="text" class="form-control" id="pesan" placeholder="Enter Phone Number">
+            </div>
+            <div class="pull-right">
+            <button onclick="tambahData()" class="btn btn-primary" type="button">Enter            
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button class="btn btn-primary" type="button" style="display: none" id="btnUpdate">Update
+              	<span class="glyphicon glyphicon-ok"></span>
+              </button>
+                <button class="btn btn-default" type="button" onclick="resetForm()">Cancel
+                	<span class="glyphicon glyphicon-remove"></span>
+                </button>
+                </div>
+               <table id="kontak" class="table">
+        <thead>
+            <tr>
+                <td>LUCKYNumber</td>
+                <td>Name</td>
+                <td>Address</td>
+                <td>Phone</td>
+            </tr>
+
+        </thead>
+        <tbody>		
+        </tbody>
+        </table>
+          </form>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+          </button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
 		
 		<div id="colorlib-subscribe">
 			<div class="overlay"></div>
@@ -229,6 +258,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</div>
 
 	<!-- jQuery -->
+	<script src="jquery-3.2.1.min.js"></script>
+    
 	<script src="js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
 	<script src="js/jquery.easing.1.3.js"></script>
@@ -244,6 +275,138 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 	<!-- Main JS (Do not remove) -->
 	<script src="js/main.js"></script>
+
+<script>
+$(document).ready(function(){
+  // Initialize Tooltip
+  $('[data-toggle="tooltip"]').tooltip(); 
+  
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+})
+</script>
+<script>
+        function newCol(value) {
+            var element = document.createElement("td")
+            element.innerHTML = value
+            return element
+        }
+
+        function newRow(psw, nama, alamat, pesan) {
+			// tambahkan tr baru dan td baru
+			var tr = document.createElement("tr")
+			tr.appendChild(newCol(psw))
+			td = document.createElement("td")
+			tr.appendChild(newCol(nama))
+			td = document.createElement("td")
+			tr.appendChild(newCol(alamat))
+			td = document.createElement("td")
+			tr.appendChild(newCol(pesan))
+
+            // tambahkan tombol
+            td = document.createElement("td")
+            var edit = document.createElement("button")
+             edit.innerHTML = "Edit"
+            edit.setAttribute("class", "btn btn-default")
+            edit.setAttribute("type", "button")          
+            td.appendChild(edit)
+            edit.onclick = function() { editData(tr) }
+
+            var hapus = document.createElement("button")
+            hapus.innerHTML = "Hapus"
+            hapus.setAttribute("class", "btn btn-default")
+            hapus.setAttribute("type", "button")
+            td.appendChild(hapus)
+            hapus.onclick = function() { hapusData(tr) }
+
+            tr.appendChild(td)
+
+            return tr
+        }
+
+        function hapusData(element) {
+            if (confirm("Are you sure?"))
+                element.remove()
+
+        }
+
+        function resetForm() {
+            document.querySelector("form").reset()
+            document.querySelector("#btnUpdate").style.display = "none"
+            document.querySelector('#psw').focus()
+        }
+
+        function editData(element) {
+            var psw = document.querySelector('#psw')
+      			var nama = document.querySelector("#nama")
+      			var alamat = document.querySelector("#alamat")
+      			var pesan = document.querySelector('#pesan')
+
+            children = element.querySelectorAll("td")
+             psw.value = children[0].innerHTML
+            nama.value = children[1].innerHTML
+            alamat.value = children[2].innerHTML
+            pesan.value = children[3].innerHTML
+
+            psw.focus()
+
+            var btnUpdate = document.querySelector("#btnUpdate")
+            btnUpdate.style.display = "inline"
+            btnUpdate.onclick = function() { updateData(element) }
+        }
+
+        function updateData(element) {
+        	var psw = document.querySelector('#psw').value
+			var nama = document.querySelector("#nama").value
+			var alamat = document.querySelector("#alamat").value
+			var pesan = document.querySelector('#pesan').value
+
+            tr = newRow(psw, nama, alamat, pesan)
+
+            table = document.querySelector("#kontak")
+			table.querySelector("tbody").replaceChild(tr, element)
+
+          resetForm()
+        }
+
+		function tambahData() {
+			// baca input
+			var psw = document.querySelector('#psw').value
+			var nama = document.querySelector("#nama").value
+			var alamat = document.querySelector("#alamat").value
+			var pesan = document.querySelector('#pesan').value
+
+            tr = newRow(psw, nama, alamat, pesan)
+			
+			// insert ke table
+			var table = document.querySelector("#kontak")
+			table.querySelector("tbody").appendChild(tr)
+
+            resetForm()
+    }
+	</script>
+   
 
 	</body>
 </html>
